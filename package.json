@@ -1,0 +1,28 @@
+{
+  "name": "fuck-git",
+  "author": "cmchu",
+  "version": "1.1.0",
+  "license": "ISC",
+  "description": "fuck-git description",
+  "keywords": [],
+  "type": "module",
+  "files": [
+    "bin"
+  ],
+  "main": "./bin/index.cjs",
+  "bin": {
+    "g": "./bin/index.cjs"
+  },
+  "scripts": {
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "chalk": "4.1.2",
+    "conf": "10.0.1",
+    "@inquirer/prompts": "^5.1.2",
+    "typescript": "^5.5.3",
+    "vite": "^5.3.3"
+  },
+  "dependencies": {
+  }
+}

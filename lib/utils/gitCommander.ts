@@ -1,0 +1,23 @@
+export default [
+  'git',
+  'marge',
+  'rebase',
+  'add',
+  'commit',
+  'checkout',
+  'branch',
+  'stash',
+  'diff',
+  'push',
+  'blame',
+  'fetch',
+  'merge',
+  'origin',
+  'pop',
+  'pull',
+  'reset',
+  'status',
+  '-m',
+  '-b',
+  '-D'
+]
