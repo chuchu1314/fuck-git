@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
-import { exec, spawn } from "child_process"
+import {  spawn } from "child_process"
 import chalk from 'chalk'
-import { input } from '@inquirer/prompts'
 import { name, version, description } from '../package.json'
 import configGit from './config/index'
 import { getSimilarStrInStrArray, isSomeArray } from './utils/str-similarity'
@@ -45,7 +44,7 @@ function start() {
 
     try {
       const result = configGit[action](value || undefined)
-      console.log('>>>>>>>', result)
+      console.log(result)
     } catch(_e) {
       console.log(chalk.yellow(action + 'is not support now!'))
     }
@@ -55,8 +54,6 @@ function start() {
   
   const list = configGit.ls()
   const similarStrList = commander.map(i => {
-    const regex = /^['"].*['"]$/
-    if(regex.test(i)) return i
     const { value, similarity } = getSimilarStrInStrArray(list, i)
     if(!similarity || similarity === 1) return i
     return value
@@ -66,24 +63,11 @@ function start() {
   if(isSomeArray(commander, similarStrList)) {
     run(commander)
   } else {
-    console.log(chalk.yellow('The command have some issues.'))
+    console.log('Maybe this the command you want to execute?')
     console.log()
-    console.log(chalk.green(gitSimilarStrList.join(' ')))
+    console.log(chalk.yellow(gitSimilarStrList.join(' ')))
     console.log()
-    const question = async () => {
-      const answer = await input({ message: 'Is this the command you want to execute? (yes/no/quit)' })
-      if(['yes', 'y'].includes(answer.toLocaleLowerCase())) {
-        run(similarStrList)
-      } else if(['no', 'n'].includes(answer.toLocaleLowerCase())) {
-        run(commander)
-      } else if(['quit', 'q'].includes(answer.toLocaleLowerCase())) {
-        process.exit(0)
-      } else {
-        console.log('Please input yes or no.')
-        question()
-      }
-    }
-    question()
+    run(commander)
   }
 }
 
@@ -94,11 +78,12 @@ function run(commander: string[]) {
     })
 
     gitStatus.on('close', (code) => {
-      console.log('--------------------funny--------------------')
       if(code === 0) {
         resolve(code)
+        process.exit(0)
       } else if(code === 1) {
         reject(code)
+        process.exit(0)
       }
     })
 
